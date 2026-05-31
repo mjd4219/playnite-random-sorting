@@ -1,20 +1,154 @@
-﻿<UserControl x:Class="RandomSorting.RandomSortingSettingsView"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            mc:Ignorable="d">
-    <StackPanel Orientation="Vertical" Margin="10">
-        <CheckBox Content="Update random identifiers on startup" IsChecked="{Binding Settings.UpdateOnStartup}"/>
-        <CheckBox Content="Update random identifiers when a game starts" IsChecked="{Binding Settings.UpdateOnGameStart}"/>
-        <CheckBox Content="Include uninstalled games" IsChecked="{Binding Settings.IncludeUninstalledGames}" Margin="0,5,0,0"/>
-        
-        <TextBlock Text="Apply random identifier to:" Margin="0,10,0,2"/>
-        <ComboBox ItemsSource="{Binding LabelTypeOptions}"
-                  SelectedItem="{Binding Settings.SelectedLabelType}"
-                  Width="90"/>
-        <TextBlock Text="Random Identifier Prefix:" Margin="0,10,0,2"/>
-        <TextBox Text="{Binding RandomPrefix, UpdateSourceTrigger=PropertyChanged}" Width="150"/>
-        <Button Content="Assign Random Identifiers" Command="{Binding AssignRandomIdentifiersCommand}" Margin="0,25,0,0" Width="186" HorizontalAlignment="Left"/>
-    </StackPanel>
+<UserControl x:Class="RandomSorting.RandomSortingSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical" Margin="10" MaxWidth="560" HorizontalAlignment="Left">
+            <GroupBox Header="General" Padding="8">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Update random identifiers on startup"
+                              IsChecked="{Binding Settings.UpdateOnStartup}"/>
+                    <CheckBox Content="Update random identifiers when a game starts"
+                              IsChecked="{Binding Settings.UpdateOnGameStart}"
+                              Margin="0,5,0,0"/>
+                    <CheckBox Content="Include uninstalled games"
+                              IsChecked="{Binding Settings.IncludeUninstalledGames}"
+                              Margin="0,5,0,0"/>
+                    <CheckBox Content="Include hidden games"
+                              IsChecked="{Binding Settings.IncludeHiddenGames}"
+                              Margin="0,5,0,0"/>
+
+                    <TextBlock Text="Apply random identifier to:" Margin="0,10,0,2"/>
+                    <ComboBox ItemsSource="{Binding LabelTypeOptions}"
+                              SelectedItem="{Binding Settings.SelectedLabelType}"
+                              Width="140"
+                              HorizontalAlignment="Left"/>
+
+                    <TextBlock Text="Feature filter:" Margin="0,10,0,2"/>
+                    <ComboBox ItemsSource="{Binding FeatureFilterOptions}"
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Id"
+                              SelectedValue="{Binding Settings.RequiredFeatureId, Mode=TwoWay}"
+                              Width="320"
+                              HorizontalAlignment="Left"/>
+                    <TextBlock Text="When set, only games with this Playnite feature are randomized."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+
+                    <TextBlock Text="Random identifier prefix:" Margin="0,10,0,2"/>
+                    <TextBox Text="{Binding RandomPrefix, UpdateSourceTrigger=PropertyChanged}"
+                             Width="180"
+                             HorizontalAlignment="Left"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Randomization" Margin="0,12,0,0" Padding="8">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Use collision-free random rank labels"
+                              IsChecked="{Binding Settings.UseCollisionFreeLabels}"/>
+                    <TextBlock Text="Recommended for larger libraries. Each game gets a unique shuffled label, avoiding duplicate sort positions."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Automatic Runs" Margin="0,12,0,0" Padding="8">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Overlapping automatic runs:" Margin="0,0,0,2"/>
+                    <ComboBox ItemsSource="{Binding AutomaticRunBehaviorOptions}"
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Value"
+                              SelectedValue="{Binding Settings.AutomaticRunBehavior, Mode=TwoWay}"
+                              Width="280"
+                              HorizontalAlignment="Left"/>
+                    <TextBlock Text="Cancel and restart is best when launching games in quick succession."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+
+                    <CheckBox Content="Allow cleanup during startup/game-start runs"
+                              IsChecked="{Binding Settings.CleanupOnAutomaticRuns}"
+                              Margin="0,10,0,0"/>
+                    <TextBlock Text="Usually leave this off. Cleanup can touch many labels and is safer as a manual maintenance task."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+
+                    <TextBlock Text="Maximum labels to clean automatically:" Margin="0,10,0,2"/>
+                    <TextBox Text="{Binding Settings.MaxAutomaticCleanupLabels, UpdateSourceTrigger=PropertyChanged}"
+                             Width="90"
+                             HorizontalAlignment="Left"/>
+                    <TextBlock Text="If automatic cleanup finds more than this, it logs a warning and skips cleanup."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Cleanup" Margin="0,12,0,0" Padding="8">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Clean orphaned random labels after randomization"
+                              IsChecked="{Binding Settings.CleanupOrphanedRandomLabels}"/>
+                    <TextBlock Text="Only removes unused tags/categories that start with the configured prefix."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Content="Assign Random Identifiers"
+                                Command="{Binding AssignRandomIdentifiersCommand}"
+                                Width="186"
+                                HorizontalAlignment="Left"/>
+                        <Button Content="Clean Up Random Labels"
+                                Command="{Binding CleanupRandomLabelsCommand}"
+                                Margin="8,0,0,0"
+                                Width="176"
+                                HorizontalAlignment="Left"/>
+                    </StackPanel>
+                    <TextBlock Text="Manual actions show a cancellable progress dialog."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Advanced / Diagnostics" Margin="0,12,0,0" Padding="8">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Automatic update batch size:" Margin="0,10,0,2"/>
+                    <TextBox Text="{Binding Settings.AutomaticDatabaseUpdateBatchSize, UpdateSourceTrigger=PropertyChanged}"
+                             Width="90"
+                             HorizontalAlignment="Left"/>
+                    <TextBlock Text="Used by startup and game-start runs. Smaller values reduce long Fullscreen stalls on large libraries."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+
+                    <TextBlock Text="Manual update batch size:" Margin="0,10,0,2"/>
+                    <TextBox Text="{Binding Settings.DatabaseUpdateBatchSize, UpdateSourceTrigger=PropertyChanged}"
+                             Width="90"
+                             HorizontalAlignment="Left"/>
+                    <TextBlock Text="Used by manual assignment and cleanup. Higher values finish maintenance sooner."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+
+                    <TextBlock Text="Delay between UI batches (ms):" Margin="0,10,0,2"/>
+                    <TextBox Text="{Binding Settings.UiBatchDelayMs, UpdateSourceTrigger=PropertyChanged}"
+                             Width="90"
+                             HorizontalAlignment="Left"/>
+                    <TextBlock Text="A small delay improves Fullscreen responsiveness during automatic runs."
+                               TextWrapping="Wrap"
+                               Opacity="0.75"
+                               Margin="0,4,0,0"/>
+
+                    <CheckBox Content="Enable detailed timing logs"
+                              IsChecked="{Binding Settings.DetailedLogging}"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
