@@ -1,4 +1,4 @@
-# playnite-rnadom-sorting
+# playnite-random-sorting
 
 Random Sorting is a Playnite plugin that lets game lists be sorted in a random order.
 
