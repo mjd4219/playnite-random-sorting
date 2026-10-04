@@ -435,7 +435,7 @@ namespace RandomSorting
                         Id = game.Id,
                         Name = game.Name,
                         Hidden = game.Hidden,
-                        IsInstalled = !string.IsNullOrEmpty(game.InstallDirectory),
+                        IsInstalled = game.IsInstalled,
                         FeatureIds = game.FeatureIds?.ToList() ?? new List<Guid>(),
                         LabelIds = GetGameLabelIds(game, settingsSnapshot.SelectedLabelType)
                     })

@@ -1,11 +1,11 @@
 AddonId: mjd4219_RandomSorting_Plugin
-IconUrl: https://raw.githubusercontent.com/mjd4219/RandomSorting_playnite/master/source/icon.png
+IconUrl: https://raw.githubusercontent.com/mjd4219/playnite-random-sorting/main/source/icon.png
 Type: Generic
-InstallerManifestUrl: https://raw.githubusercontent.com/mjd4219/RandomSorting_playnite/master/InstallerManifest/mjd4219_RandomSorting_Plugin.yaml
+InstallerManifestUrl: https://raw.githubusercontent.com/mjd4219/playnite-random-sorting/main/InstallerManifest/mjd4219_RandomSorting_Plugin.yaml
 ShortDescription: Generates random Tags or Categories so game lists can be sorted randomly.
 Description: Playnite plugin to sort game lists in a random order by assigning generated Tags or Categories to eligible games. It supports manual, startup, and game-start randomization; optional Playnite Feature filtering; collision-free rank labels; configurable automatic run behavior; hidden and uninstalled game inclusion settings; safe cleanup of unused plugin-created labels; and performance settings for larger libraries. Automatic runs are chunked to reduce UI stalls, while manual assignment and cleanup show cancellable progress dialogs.
 Name: RandomSorting
 Author: mjd4219
 Links:
-    GitHub: https://github.com/mjd4219/RandomSorting_playnite
-SourceUrl: https://github.com/mjd4219/RandomSorting_playnite/tree/main/source
+    GitHub: https://github.com/mjd4219/playnite-random-sorting
+SourceUrl: https://github.com/mjd4219/playnite-random-sorting/tree/main/source
